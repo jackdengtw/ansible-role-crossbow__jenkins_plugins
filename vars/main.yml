@@ -1,0 +1,6 @@
+
+# Jenkins instance home
+#njenkins_home:
+
+# Role cache directory.
+cache: "{{cache_directory}}/jenkins.plugins/"

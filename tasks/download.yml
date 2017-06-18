@@ -1,0 +1,19 @@
+- name: DOWNLOAD | CREATE DOWNLOAD CACHE DIRECTORY
+  # =====================================================================
+  become: No
+  delegate_to: 127.0.0.1
+  action: file
+  args:
+    path: "{{cache}}/{{item.name}}/"
+    state: "directory"
+  with_items: "{{jenkins_plugins}}"
+
+- name: DOWNLOAD | FETCH ARTIFACTS
+  # =====================================================================
+  become: No
+  delegate_to: 127.0.0.1
+  action: get_url
+  args:
+      url: "{{jenkins_plugin_download_url}}/{{item.name}}/{{item.version}}/{{item.name}}.hpi"
+      dest: "{{cache}}/{{item.name}}/{{item.name}}-{{item.version}}.hpi"
+  with_items: "{{jenkins_plugins}}"

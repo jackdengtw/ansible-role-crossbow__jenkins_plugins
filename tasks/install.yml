@@ -1,0 +1,46 @@
+---
+- name: INSTALL | KEEP PLUGIN BACKUP VERSION
+  # =========================================================================
+  action: command mv -nf {{jenkins_home}}/plugins {{jenkins_home}}/plugins.bak
+
+- name: INSTALL | create plugins dir
+  file:
+    path: "{{jenkins_home}}/plugins"
+    state: directory
+
+- name: INSTALL | COPY PLUGIN TO JENKINS_HOME
+  # =========================================================================
+  action: copy
+  args:
+    src: "{{cache}}/{{item.name}}/{{item.name}}-{{item.version}}.hpi"
+    dest: "{{jenkins_home}}/plugins/{{item.name}}.jpi"
+    backup: yes
+  with_items: "{{ jenkins_plugins }}"
+  register: plugin_copy
+
+- name: INSTALL | PIN PLUGINS
+  # =========================================================================
+  action: file
+  args:
+    state: "touch"
+    dest: "{{jenkins_home}}/plugins/{{item.name}}.jpi.pinned"
+  when: "{{ item.pinned | default(false) }}"
+  with_items: "{{ jenkins_plugins }}"
+
+- name: INSTALL | ENABLE PLUGINS
+  # =========================================================================
+  action: file
+  args:
+    state: "absent"
+    dest: "{{jenkins_home}}/plugins/{{item.name}}.jpi.disabled"
+  when: "{{ item.enabled | default(True) }}"
+  with_items: "{{ jenkins_plugins }}"
+
+- name: INSTALL | DISABLE PLUGINS
+  # =========================================================================
+  action: file
+  args:
+    state: "touch"
+    dest: "{{jenkins_home}}/plugins/{{item.name}}.jpi.disabled"
+  when: not {{ item.enabled | default(True) }}
+  with_items: "{{ jenkins_plugins }}"
