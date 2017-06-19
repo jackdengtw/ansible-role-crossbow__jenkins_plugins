@@ -84,9 +84,9 @@ galaxy_info:
   #  versions:
   #  - all
   #  - any
-  #- name: GenericLinux
-  #  versions:
-  #  - all
+  - name: GenericLinux
+    versions:
+    - all
   #  - any
   #- name: NXOS
   #  versions:
