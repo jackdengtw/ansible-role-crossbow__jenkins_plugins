@@ -13,10 +13,14 @@ addons:
 
 install:
   # Install ansible
-  - pip install ansible
+  - pip install ansible==2.2.0.0
 
   # Check ansible version
   - ansible --version
+
+  # prepare local role dir structure
+  - git clone -b ${TRAVIS_BRANCH} --depth 1 git://github.com/${TRAVIS_REPO_SLUG} jackdengtw.crossbow__jenkins_plugins
+  - mv jackdengtw.crossbow__jenkins_plugins ..
 
   # Create ansible.cfg with correct roles_path
   # - printf '[defaults]\nroles_path=../' >ansible.cfg
