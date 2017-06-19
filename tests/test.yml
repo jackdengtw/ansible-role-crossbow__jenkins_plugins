@@ -2,4 +2,4 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - jackdengtw.jenkins_plugins
+    - jackdengtw.crossbow__jenkins_plugins

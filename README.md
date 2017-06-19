@@ -28,7 +28,7 @@ Example Playbook
 
     - hosts: servers
       roles:
-         - { role: jackdengtw.jenkins_plugins, tags: ["plugins"] }
+         - { role: jackdengtw.crossbow__jenkins_plugins, tags: ["plugins"] }
 
 License
 -------
